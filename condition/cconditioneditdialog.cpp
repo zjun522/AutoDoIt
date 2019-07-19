@@ -39,6 +39,8 @@ CConditionEditDialog::CConditionEditDialog(QWidget *parent) :
     completer->setModel(new QDirModel(completer));
 #endif
     ui->lineEdit_watchFile->setCompleter(completer);
+
+    adjustSize();
 }
 
 CConditionEditDialog::CConditionEditDialog(std::shared_ptr<CCondition> condition, QWidget *parent) :

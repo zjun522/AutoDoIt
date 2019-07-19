@@ -15,6 +15,7 @@ public:
                          ERepeatMode repeatMode = ERepeatMode::EPM_ONCE,
                          std::shared_ptr<CAction> action = nullptr,
                          std::shared_ptr<CCondition> condition = nullptr,
+                         QString taskName = "",
                          QObject *parent = nullptr);
     ~CWatchProcessTrigger() override;
     Q_DISABLE_COPY_MOVE(CWatchProcessTrigger)

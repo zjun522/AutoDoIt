@@ -12,9 +12,9 @@ CTimerTrigger::CTimerTrigger(QObject *parent) :
 CTimerTrigger::CTimerTrigger(QTime time, ETimerMode timerMode,
                              ERepeatMode repeatMode,
                              std::shared_ptr<CAction> action,
-                             std::shared_ptr<CCondition> condition,
+                             std::shared_ptr<CCondition> condition, QString taskName,
                              QObject *parent) :
-    CTrigger(repeatMode, true, std::move(action), std::move(condition), parent),
+    CTrigger(repeatMode, true, std::move(action), std::move(condition), std::move(taskName), parent),
     m_time(time),
     m_timerMode(timerMode)
 {

@@ -11,13 +11,14 @@ CTrigger::CTrigger(QObject *parent) :
 
 CTrigger::CTrigger(ERepeatMode repeatMode, bool repeatStartWatch,
                    std::shared_ptr<CAction> action,
-                   std::shared_ptr<CCondition> condition,
+                   std::shared_ptr<CCondition> condition, QString taskName,
                    QObject *parent) :
     QObject(parent),
     m_action(std::move(action)),
     m_condition(std::move(condition)),
     m_repeatMode(repeatMode),
-    m_repeatStartWatch(repeatStartWatch)
+    m_repeatStartWatch(repeatStartWatch),
+    m_taskName(std::move(taskName))
 {
 //    m_action.reset(action);
 //    m_condition.reset(condition);
@@ -26,7 +27,7 @@ CTrigger::CTrigger(ERepeatMode repeatMode, bool repeatStartWatch,
 
 QString CTrigger::getTaskName() const
 {
-    return getTriggerName() + m_action->getActionName();
+    return m_taskName.isEmpty() ? getTriggerName() + m_action->getActionName() : m_taskName;
 }
 
 void CTrigger::triggered()
@@ -115,7 +116,7 @@ QDataStream &CTrigger::operator <<(QDataStream &stream)
     qint8 repeatMode = 0;
     stream >> repeatMode >> m_repeatStartWatch
            >> m_isWatch >> m_done
-           >> m_errorString >> m_triggeredTime >> m_tipMsg >> m_lastActionSuccess;
+        >> m_errorString >> m_triggeredTime >> m_tipMsg >> m_lastActionSuccess >> m_taskName;
     m_repeatMode = ERepeatMode(repeatMode);
 
     QString className;
@@ -138,7 +139,7 @@ QDataStream &CTrigger::operator >>(QDataStream &stream) const
 {
     stream << QString(typeid(*this).name()) << static_cast<qint8>(m_repeatMode) << m_repeatStartWatch
            << m_isWatch << m_done
-           << m_errorString << m_triggeredTime << m_tipMsg << m_lastActionSuccess;
+           << m_errorString << m_triggeredTime << m_tipMsg << m_lastActionSuccess << m_taskName;
 
     if(m_action)
         *m_action >> stream;

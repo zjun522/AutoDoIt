@@ -20,7 +20,7 @@ public:
     };
 public:
     explicit CTrigger(QObject *parent = nullptr);
-    explicit CTrigger(ERepeatMode repeatMode = ERepeatMode::EPM_ONCE, bool repeatStartWatch = false, std::shared_ptr<CAction> action = nullptr, std::shared_ptr<CCondition> condition = nullptr, QObject *parent = nullptr);
+    explicit CTrigger(ERepeatMode repeatMode = ERepeatMode::EPM_ONCE, bool repeatStartWatch = false, std::shared_ptr<CAction> action = nullptr, std::shared_ptr<CCondition> condition = nullptr, QString taskName = "", QObject *parent = nullptr);
     ~CTrigger() override = default;
     Q_DISABLE_COPY_MOVE(CTrigger)
 
@@ -65,6 +65,7 @@ protected:
     QDateTime m_triggeredTime;        //上一次触发时间
     QString m_tipMsg;                 //tip消息
     bool m_lastActionSuccess = false;  //上一次触发是否成功
+    QString m_taskName;
 };
 
 

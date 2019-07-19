@@ -35,6 +35,10 @@ private slots:
 
     void on_pushButton_selectProcess_clicked();
 
+    void on_groupBox_delayBefore_clicked(bool checked);
+
+    void on_groupBox_delayAfter_clicked(bool checked);
+
 private:
     Ui::CActionEditDialog *ui;
 

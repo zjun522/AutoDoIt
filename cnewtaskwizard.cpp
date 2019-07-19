@@ -66,6 +66,8 @@ CNewTaskWizard::CNewTaskWizard(QWidget *parent) :
     connect(ui->lineEdit_watchProcess, SIGNAL(textChanged(QString)), this, SLOT(checkAvaliable()));
     connect(ui->lineEdit_taskName, SIGNAL(textChanged(QString)), this, SLOT(checkAvaliable()));
     connect(this, SIGNAL(currentIdChanged(int)), this, SLOT(checkAvaliable()));
+
+    this->resize(sizeHint() + QSize(0, 100));
 }
 
 CNewTaskWizard::CNewTaskWizard(CTrigger *trigger, QWidget *parent) :
@@ -193,7 +195,7 @@ void CNewTaskWizard::on_CNewTaskWizard_accepted()
     }
 
     CGroupTrigger *trigger = CMakeFactory::makePtr<CGroupTrigger>(ui->radioButton_once->isChecked() ? CTrigger::EPM_ONCE : CTrigger::EPM_REPEAT,
-                                                                  action, condition, this->parent());
+                                                                  action, condition, ui->lineEdit_taskName->text().trimmed(), this->parent());
 
     if(ui->radioButton_timeTrigger->isChecked())
     {

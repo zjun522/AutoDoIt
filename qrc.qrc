@@ -23,5 +23,6 @@
         <file>image/about.png</file>
         <file>image/help.png</file>
         <file>image/do.png</file>
+        <file>Tasks</file>
     </qresource>
 </RCC>

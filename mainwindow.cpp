@@ -83,8 +83,8 @@ void MainWindow::initSysTray()
     m_sysTray = new QSystemTrayIcon(this);
     m_sysTray->setIcon(QIcon(":/image/Attachment.png"));
     m_sysTray->setToolTip(tr(u8"AutoDoIt is running"));
-    m_sysTray->showMessage(qApp->applicationName(), tr(u8"欢迎使用%0！").arg(QApplication::applicationName()),
-                           QSystemTrayIcon::Information, 2000);
+//    m_sysTray->showMessage(QApplication::applicationName(), tr(u8"欢迎使用%0！").arg(QApplication::applicationName()),
+//                           QSystemTrayIcon::Information, 2000);
     connect(m_sysTray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(sysTrayActivated(QSystemTrayIcon::ActivationReason)));
 
@@ -274,19 +274,27 @@ void MainWindow::restoreTask()
     QFile file(QDir::homePath() + "/" + QStandardPaths::displayName(QStandardPaths::DocumentsLocation)
                + QStringLiteral("/") + QStringLiteral(VER_PRODUCTNAME_STR) + QStringLiteral("/Tasks"));
     if(!file.exists())
-        return;
+    {
+        file.setFileName(":/Tasks");
+        showNotify(u8"AutoDoIt默认托盘运行！");
+    }
     if(!file.open(QIODevice::ReadOnly))
     {
-        showNotify(tr(u8"载入任务文件失败"));
+        showNotify(QStringLiteral("载入任务文件失败"));
         return;
     }
 
     QDataStream stream(&file);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
+    stream.setVersion(QDataStream::Qt_5_13);
+#elif (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
+    in.setVersion(QDataStream::Qt_5_12);
+#endif
     qint32 magicNumber = 0;
     stream >> magicNumber;
     if(g_magicNumber != magicNumber)
     {
-        showNotify(tr(u8"文件“%1”不是%2任务文件").arg(file.fileName(), QApplication::applicationName()));
+        showNotify(QStringLiteral("文件“%1”不是%2任务文件").arg(file.fileName(), QApplication::applicationName()));
         return;
     }
     int total = 0;
@@ -297,7 +305,7 @@ void MainWindow::restoreTask()
         stream >> className;
         if(className == QString(typeid(CGroupTrigger).name()))
         {
-            CGroupTrigger *trigger = CMakeFactory::makePtr<CGroupTrigger>(CTrigger::EPM_ONCE, nullptr, nullptr, this);
+            CGroupTrigger *trigger = CMakeFactory::makePtr<CGroupTrigger>(CTrigger::EPM_ONCE, nullptr, nullptr, QStringLiteral(""), this);
             *trigger << stream;
             m_taskList.append(trigger);
         }
@@ -321,7 +329,7 @@ void MainWindow::saveTask()
     if(!file.exists())
     {
         QDir dir(QDir::homePath() + QStringLiteral("/") + QStandardPaths::displayName(QStandardPaths::DocumentsLocation) + QStringLiteral("/"));
-        if(!dir.mkdir(QStringLiteral(VER_PRODUCTNAME_STR)))
+        if(!dir.mkpath(QStringLiteral(VER_PRODUCTNAME_STR)))
         {
             showNotify(QStringLiteral("保存任务文件失败"));
             return;
@@ -333,6 +341,11 @@ void MainWindow::saveTask()
         return;
     }
     QDataStream stream(&file);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
+    stream.setVersion(QDataStream::Qt_5_13);
+#elif (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
+    in.setVersion(QDataStream::Qt_5_12);
+#endif
     stream << g_magicNumber << m_taskList.count();
     foreach (const CTask *task, m_taskList) {
         *task >> stream;
@@ -350,7 +363,7 @@ void MainWindow::on_action_about_triggered()
                                       "<p>Based on Qt %2 (MSVC 2017 64 bit)"
                                       "<p>Built on %3 %4"
 //                                      "<p>%5 %6"
-                                      "<p>本软件是开源软件，<a href=\"https://gitee.com/zJun522/AutoDoIt.git\">代码仓库地址</a>")
+                                      "<p>本软件是开源软件，<a href=\"https://github.com/zjun522/AutoDoIt\">代码仓库地址</a>")
                            .arg(QApplication::applicationName(),
                                 QApplication::applicationVersion(),
                                 QString::number(QT_VERSION_MAJOR) + QStringLiteral(".") + QString::number(QT_VERSION_MINOR) + QStringLiteral(".") + QString::number(QT_VERSION_PATCH),

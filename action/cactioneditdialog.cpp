@@ -27,6 +27,8 @@ CActionEditDialog::CActionEditDialog(QWidget *parent) :
     ui->groupBox_message->setVisible(false);
     ui->groupBox_startStop->setVisible(false);
     ui->groupBox_powerOff->setVisible(false);
+
+    adjustSize();
 }
 
 CActionEditDialog::CActionEditDialog(std::shared_ptr<CAction> action, QWidget *parent) :
@@ -81,9 +83,25 @@ CActionEditDialog::~CActionEditDialog()
     delete ui;
 }
 
+void CActionEditDialog::on_groupBox_delayBefore_clicked(bool checked)
+{
+    if(checked)
+        on_timeEdit_delayBefore_timeChanged(ui->timeEdit_delayBefore->time());
+    else
+        ui->label_delayBefore->clear();
+}
+
 void CActionEditDialog::on_timeEdit_delayBefore_timeChanged(const QTime &time)
 {
     ui->label_delayBefore->setText(QStringLiteral("延时%1分%2秒后执行").arg(time.minute()).arg(time.second()));
+}
+
+void CActionEditDialog::on_groupBox_delayAfter_clicked(bool checked)
+{
+    if(checked)
+        on_timeEdit_delayAfter_timeChanged(ui->timeEdit_delayAfter->time());
+    else
+        ui->label_delayAfter->clear();
 }
 
 void CActionEditDialog::on_timeEdit_delayAfter_timeChanged(const QTime &time)

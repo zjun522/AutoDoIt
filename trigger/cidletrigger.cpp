@@ -4,9 +4,9 @@
 CIdleTrigger::CIdleTrigger(quint64 idleSeconds, int duration,
                            ERepeatMode repeatMode ,
                            std::shared_ptr<CAction> action,
-                           std::shared_ptr<CCondition> condition,
+                           std::shared_ptr<CCondition> condition, QString taskName,
                            QObject *parent) :
-    CTrigger(repeatMode, false, std::move(action), std::move(condition), parent),
+    CTrigger(repeatMode, false, std::move(action), std::move(condition), std::move(taskName), parent),
     m_duration(duration),
     m_idleSeconds(idleSeconds)
 {

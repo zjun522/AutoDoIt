@@ -8,7 +8,7 @@ class CGroupTrigger : public CTrigger
 {
     Q_OBJECT
 public:
-    CGroupTrigger(ERepeatMode repeatMode = ERepeatMode::EPM_ONCE, std::shared_ptr<CAction> action = nullptr, std::shared_ptr<CCondition> condition = nullptr, QObject *parent = nullptr);
+    CGroupTrigger(ERepeatMode repeatMode = ERepeatMode::EPM_ONCE, std::shared_ptr<CAction> action = nullptr, std::shared_ptr<CCondition> condition = nullptr, QString taskName = "", QObject *parent = nullptr);
     ~CGroupTrigger() override;
     Q_DISABLE_COPY_MOVE(CGroupTrigger)
 
