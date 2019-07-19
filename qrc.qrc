@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/Attachment.ico</file>
+        <file>image/Attachment.png</file>
+        <file>image/add.png</file>
+        <file>image/delete.png</file>
+        <file>image/folder.png</file>
+        <file>image/search.png</file>
+        <file>image/down.png</file>
+        <file>image/up.png</file>
+        <file>image/edit.png</file>
+        <file>image/run.png</file>
+        <file>image/video.png</file>
+        <file>image/music.png</file>
+        <file>image/chenked.png</file>
+        <file>image/bomb.png</file>
+        <file>image/time.png</file>
+        <file>image/kill.png</file>
+        <file>image/poweroff.png</file>
+        <file>image/setting.png</file>
+        <file>image/info.png</file>
+        <file>image/stop.png</file>
+        <file>image/about.png</file>
+        <file>image/help.png</file>
+        <file>image/do.png</file>
+    </qresource>
+</RCC>
