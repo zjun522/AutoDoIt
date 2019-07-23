@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-#ifdef QT_DEBUG
+#ifdef QT_NO_DEBUG
     ui->action_debug->setVisible(false);
 #endif
 
@@ -51,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_menu->addAction(ui->action_doTask);
 
     updateAction();
+    showNotify(QStringLiteral("欢迎使用%1！").arg(QApplication::applicationName()));
 }
 
 MainWindow::~MainWindow()
@@ -276,7 +277,6 @@ void MainWindow::restoreTask()
     if(!file.exists())
     {
         file.setFileName(":/Tasks");
-        showNotify(u8"AutoDoIt默认托盘运行！");
     }
     if(!file.open(QIODevice::ReadOnly))
     {
